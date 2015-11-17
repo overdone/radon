@@ -57,8 +57,14 @@ class RoamingReportRowDetail(APIView):
 class MproReportRowsList(generics.ListCreateAPIView):
     queryset = MproReportRef.objects.all()
     serializer_class = MproReportRefSerializer
+    """
+    List all rows, or create a new row for MproReport reference. Generic notation
+    """
 
 
 class MproReportRowDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = MproReportRef.objects.all()
     serializer_class = MproReportRefSerializer
+    """
+    Get, update or delete a row for MproReport reference. Generic notation
+    """
