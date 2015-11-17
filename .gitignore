@@ -1,3 +1,6 @@
 *.pyc
 *.log
 claims/
+app/
+glock/settings.py
+radon/migrations/

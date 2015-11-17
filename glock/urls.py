@@ -4,6 +4,6 @@ from django.contrib import admin
 from django.views.generic import TemplateView
 
 urlpatterns = [
-    url(r'^', include('api.urls')),
+    url(r'^api/v1/', include('api.urls')),
     url(r'^admin/', include(admin.site.urls)),
 ]
