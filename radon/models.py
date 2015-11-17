@@ -2,6 +2,9 @@ from django.db import models
 
 
 class RoamingReportRef(models.Model):
+    """
+    Roaming report price reference
+    """
     lcal_id = models.IntegerField()
     group_id = models.IntegerField()
     srls_id = models.IntegerField()
@@ -16,6 +19,9 @@ class RoamingReportRef(models.Model):
 
 
 class MproReportRef(models.Model):
+    """
+    Mpro report price reference
+    """
     service_id = models.IntegerField()
     option_id = models.IntegerField()
     kp_id = models.IntegerField()

@@ -1,70 +1,31 @@
 from radon.models import *
 from radon.serializers import *
-from django.http import Http404
-from rest_framework.views import APIView
+from rest_framework import viewsets
+
+from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from rest_framework import status
-from rest_framework import generics
+from rest_framework.reverse import reverse
 
-class RoamingReportRowsList(APIView):
+
+@api_view(('GET',))
+def api_root(request, format=None):
+    return Response({
+        'roamings': reverse('roaming', request=request, format=format),
+        'mpros': reverse('mpro', request=request, format=format)
+    })
+
+
+class RoamingReportViewSet(viewsets.ModelViewSet):
     """
-    List all rows, or create a new row.
+    Roaming report reference ViewSet 
     """
-
-    def get(self, request, format=None):
-        
-        rows = RoamingReportRef.objects.all()
-        serializer = RoamingReportRefSerializer(rows, many=True)
-        return Response(serializer.data)
-
-    def post(self, request, format=None):
-            serializer = RoamingReportRefSerializer(data=request.data)
-            if serializer.is_valid():
-                serializer.save()
-                return Response(serializer.data, status=status.HTTP_201_CREATED)
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    queryset = RoamingReportRef.objects.all()
+    serializer_class = RoamingReportRefSerializer
 
 
-class RoamingReportRowDetail(APIView):
+class MproReportViewSet(viewsets.ModelViewSet):
     """
-    Get, update or delete a row.
+    Mpro report reference ViewSet
     """
-    def get_object(self, pk):
-        try:
-            return RoamingReportRef.objects.get(pk=pk)
-        except RoamingReportRef.DoesNotExist:
-            raise Http404
-
-    def get(self, request, pk, format=None):
-        row = self.get_object(pk)
-        serializer = RoamingReportRefSerializer(row)
-        return Response(serializer.data)
-
-    def put(self, request, pk, format=None):
-        row = self.get_object(pk)
-        serializer = RoamingReportRefSerializer(row, data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-    def delete(self, request, pk, format=None):
-        row = self.get_object(pk)
-        row.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
-
-
-class MproReportRowsList(generics.ListCreateAPIView):
     queryset = MproReportRef.objects.all()
     serializer_class = MproReportRefSerializer
-    """
-    List all rows, or create a new row for MproReport reference. Generic notation
-    """
-
-
-class MproReportRowDetail(generics.RetrieveUpdateDestroyAPIView):
-    queryset = MproReportRef.objects.all()
-    serializer_class = MproReportRefSerializer
-    """
-    Get, update or delete a row for MproReport reference. Generic notation
-    """
