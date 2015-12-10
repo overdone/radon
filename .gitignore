@@ -1,6 +1,6 @@
 *.pyc
 *.log
 claims/
-app/
+app/lib/
 glock/settings.py
 radon/migrations/

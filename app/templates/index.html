@@ -1,0 +1,94 @@
+
+{% load staticfiles %}
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+
+  <title>Radon APP</title>
+
+  <link href="../app/lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="../app/lib/bower_components/bootstrap-material-design/dist/css/bootstrap-material-design.css" rel="stylesheet">
+  <link href="../app/lib/bower_components/bootstrap-material-design/dist/css/ripples.min.css" rel="stylesheet"> 
+  <link href="../app/css/app.css" rel="stylesheet">
+
+</head>
+
+<body ng-app="{% block ng_app %}radon{% endblock %}">
+
+  <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <a class="navbar-brand"><strong>Radon</strong></a>
+      </div>
+      <div class="navbar-collapse collapse">
+        <ul class="nav navbar-nav navbar-right">
+          <li><a href="#"><span class="glyphicon glyphicon-log-out"></span> Выйти</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-sm-3 col-md-2 sidebar" ng-controller="{% block replist %} ReportList as list {% endblock %}">
+        <ul class="nav nav-sidebar">
+          {% block content %}
+          {% verbatim %}
+          <li ng-repeat="report in list.reports">
+            <a href="#">{{report.name}}</a>
+          </li>
+          {% endverbatim %}
+          {% endblock %}
+        </ul>         
+      </div>
+      <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main" ng-controller="{% block reptable %} RoamingReport as store {% endblock %}">
+       {% verbatim %}        
+        <table st-safe-src="store.tablerows" st-table="store.displayed" class="table table-striped">
+          <thead>
+            <tr>
+              <th>LCAL_ID</th>
+              <th>GROUP_ID</th>
+              <th>SRLS_ID</th>
+              <th>BRANCH_ID</th>
+              <th>PRICE</th>
+            </tr>   
+            <tr>
+              <th colspan="5">
+                <input st-search="" class="form-control" placeholder="Найти ..." type="text"/>
+              </th> 
+            </tr>         
+          </thead>
+          <tbody>
+            <tr ng-repeat="row in store.displayed">
+              <td>{{row.lcal_id}}</td>
+              <td>{{row.group_id}}</td>
+              <td>{{row.srls_id}}</td>
+              <td>{{row.branch_id}}</td>
+              <td>{{row.price}}</td>
+            </tr>
+          </tbody>
+          <tfoot>
+            <tr>
+              <td colspan="5" class="text-center">
+                <div st-pagination="" st-items-by-page="17"></div>
+              </td>
+            </tr>
+          </tfoot>
+        </table>
+        {% endverbatim %}
+        <div class="plus-button"><a href="javascript:void(0)" class="btn btn-danger btn-fab"><i class="material-icons">+</a></div>
+      </div>
+    </div>
+  </div>
+  <script src="{% static '../app/lib/bower_components/angular/angular.min.js' %}"></script>
+  <script src="{% static '../app/lib/bower_components/angular-smart-table/dist/smart-table.min.js' %}"></script>
+  <script src="{% static '../app/lib/bower_components/jquery/dist/jquery.min.js' %}"></script>
+  <script src="{% static '../app/lib/bower_components/bootstrap-material-design/dist/js/material.min.js' %}"></script>
+  <script src="{% static '../app/lib/bower_components/bootstrap-material-design/dist/js/ripples.min.js' %}"></script>
+  <script src="{% static '../app/js/app.js' %}"></script>
+  <script src="{% static '../app/js/reports.js' %}"></script>
+  <script>$.material.init();</script>
+</body>
+</html>

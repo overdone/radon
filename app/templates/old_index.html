@@ -1,0 +1,23 @@
+
+{% load staticfiles %}
+
+<!DOCTYPE html>
+<html>
+<head>
+</head>
+<body ng-app="{% block ng_app %}radon{% endblock %}">
+<div ng-controller="{% block ng_controller %} ReportList as list {% endblock %}">
+{% block content %}
+{% verbatim %}
+    <div ng-repeat="report in list.reports">
+        <h1>{{report.name}}</h1>
+        <p>{{report.type}}</p>
+    </div>
+{% endverbatim %}
+{% endblock %}
+</div>
+<script src="{% static '../app/lib/bower_components/angular/angular.min.js' %}"></script>
+<script src="{% static '../app/js/app.js' %}"></script>
+<script src="{% static '../app/js/reports.js' %}"></script>
+</body>
+</html>
