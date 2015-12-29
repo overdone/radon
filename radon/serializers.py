@@ -6,7 +6,7 @@ class RoamingReportRefSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = RoamingReportRef
-        fields = ('lcal_id', 'group_id', 'srls_id', 'branch_id', 'price')
+        fields = ('id', 'lcal_id', 'group_id', 'srls_id', 'branch_id', 'price')
         read_only_fields = ('insert_at', 'update_at')
 
 

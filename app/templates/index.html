@@ -15,7 +15,7 @@
 
 </head>
 
-<body ng-app="{% block ng_app %}radon{% endblock %}">
+<body ng-app="radon">
 
   <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
     <div class="container-fluid">
@@ -32,7 +32,7 @@
 
   <div class="container-fluid">
     <div class="row">
-      <div class="col-sm-3 col-md-2 sidebar" ng-controller="{% block replist %} ReportList as list {% endblock %}">
+      <div class="col-sm-3 col-md-2 sidebar" ng-controller="ReportListController as list">
         <ul class="nav nav-sidebar">
           {% block content %}
           {% verbatim %}
@@ -43,36 +43,47 @@
           {% endblock %}
         </ul>         
       </div>
-      <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main" ng-controller="{% block reptable %} RoamingReport as store {% endblock %}">
+      <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main" ng-controller="RoamingReportController as store">
        {% verbatim %}        
-        <table st-safe-src="store.tablerows" st-table="store.displayed" class="table table-striped">
-          <thead>
+       <table st-safe-src="store.tablerows" st-table="store.displayed" class="table table-striped table-hover">
+        <thead>
+          <tr>
+            <th>LCAL_ID</th>
+            <th>GROUP_ID</th>
+            <th>SRLS_ID</th>
+            <th>BRANCH_ID</th>
+            <th>PRICE</th>
+            <th></th>
             <tr>
-              <th>LCAL_ID</th>
-              <th>GROUP_ID</th>
-              <th>SRLS_ID</th>
-              <th>BRANCH_ID</th>
-              <th>PRICE</th>
-            </tr>   
-            <tr>
-              <th colspan="5">
-                <input st-search="" class="form-control" placeholder="Найти ..." type="text"/>
+              <th colspan="6">
+                <div class="form-group label-floating">                
+                  <label class="control-label" for="searchfield"> Найти ...</label>
+                  <div class="input-group col-md-12">
+                    <input st-search="" class="form-control" id="searchfield" type="text"/>
+                  </div>
+                </div>
               </th> 
             </tr>         
           </thead>
           <tbody>
-            <tr ng-repeat="row in store.displayed">
+            <tr st-select-row="row" st-select-mode="multiple" ng-repeat="row in store.displayed">
+              <!-- <tr ng-repeat="row in store.displayed"> -->
               <td>{{row.lcal_id}}</td>
               <td>{{row.group_id}}</td>
               <td>{{row.srls_id}}</td>
               <td>{{row.branch_id}}</td>
               <td>{{row.price}}</td>
+              <td class="control-column">
+                <i class="material-icons-font" ng-class="{'orange600': editColoring}" ng-mouseenter="editColoring=true" ng-mouseleave="editColoring=false">mode_edit</i>
+                &nbsp;&nbsp;
+                <i ng-click="deleteRow(row.id, $index)" class="material-icons-font" ng-class="{'orange600': delColoring}" ng-mouseenter="delColoring=true" ng-mouseleave="delColoring=false">delete</i>
+              </td>
             </tr>
           </tbody>
           <tfoot>
             <tr>
-              <td colspan="5" class="text-center">
-                <div st-pagination="" st-items-by-page="17"></div>
+              <td colspan="6" class="text-center">
+                <div st-pagination="" st-items-by-page="15"></div>
               </td>
             </tr>
           </tfoot>
