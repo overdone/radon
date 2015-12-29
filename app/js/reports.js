@@ -2,7 +2,7 @@
 
 //'use strict';
 
-var app = angular.module('radon-reposts', []);
+var app = angular.module('radon-reposts', ['ngDialog']);
 
 app.controller('ReportListController', function(){
   this.reports = [{
@@ -15,7 +15,7 @@ app.controller('ReportListController', function(){
     }];
 });
 
-app.controller('RoamingReportController', ['$http', '$scope', function($http, $scope){
+app.controller('RoamingReportController', ['$http', '$scope', 'ngDialog', function($http, $scope, ngDialog){
     var canDelete = true;     // If true show Delete roe button
     var canEdir = false;       // If true show Edit row button
     var delColoring = false;
@@ -36,18 +36,29 @@ app.controller('RoamingReportController', ['$http', '$scope', function($http, $s
     store.displayed = [].concat(store.tablerows);
     /* Get */
 
+
     /*
      * Delete API
      */
     $scope.deleteRow = function(rowId, ind) {
-        console.log(rowId + ' ' + ind);
 
-        $http.delete('/api/v1/roaming/' + rowId + '/')
+        $http.delete('/api/v1/roaming/' + rowId)
              .success(function(data, status) {
                 store.displayed.splice(ind, 1);
             });
     };
     /* Delete */
+
+    $scope.editRow = function(header, row) {
+        $scope.val = row || {};
+        $scope.header = header;
+
+        ngDialog.open({ 
+            template: 'app/templates/roam_rep_modal.html',
+            controller: 'editWindowController',
+            scope: $scope
+        });
+    };
 
 
 

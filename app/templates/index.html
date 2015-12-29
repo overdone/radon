@@ -7,7 +7,9 @@
   <meta charset="utf-8">
 
   <title>Radon APP</title>
-
+  
+  <link href="../app/lib/bower_components/ng-dialog/css/ngDialog.css" rel="stylesheet">
+  <link href="../app/lib/bower_components/ng-dialog/css/ngDialog-theme-default.css" rel="stylesheet">  
   <link href="../app/lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
   <link href="../app/lib/bower_components/bootstrap-material-design/dist/css/bootstrap-material-design.css" rel="stylesheet">
   <link href="../app/lib/bower_components/bootstrap-material-design/dist/css/ripples.min.css" rel="stylesheet"> 
@@ -58,7 +60,7 @@
               <th colspan="6">
                 <div class="form-group label-floating">                
                   <label class="control-label" for="searchfield"> Найти ...</label>
-                  <div class="input-group col-md-12">
+                  <div class="input-group">
                     <input st-search="" class="form-control" id="searchfield" type="text"/>
                   </div>
                 </div>
@@ -66,15 +68,15 @@
             </tr>         
           </thead>
           <tbody>
-            <tr st-select-row="row" st-select-mode="multiple" ng-repeat="row in store.displayed">
-              <!-- <tr ng-repeat="row in store.displayed"> -->
+            <!-- <tr st-select-row="row" st-select-mode="multiple" ng-repeat="row in store.displayed"> -->
+            <tr ng-repeat="row in store.displayed">
               <td>{{row.lcal_id}}</td>
               <td>{{row.group_id}}</td>
               <td>{{row.srls_id}}</td>
               <td>{{row.branch_id}}</td>
               <td>{{row.price}}</td>
               <td class="control-column">
-                <i class="material-icons-font" ng-class="{'orange600': editColoring}" ng-mouseenter="editColoring=true" ng-mouseleave="editColoring=false">mode_edit</i>
+                <i ng-click="editRow('Изменить', row)" class="material-icons-font" ng-class="{'orange600': editColoring}" ng-mouseenter="editColoring=true" ng-mouseleave="editColoring=false">mode_edit</i>
                 &nbsp;&nbsp;
                 <i ng-click="deleteRow(row.id, $index)" class="material-icons-font" ng-class="{'orange600': delColoring}" ng-mouseenter="delColoring=true" ng-mouseleave="delColoring=false">delete</i>
               </td>
@@ -89,7 +91,9 @@
           </tfoot>
         </table>
         {% endverbatim %}
-        <div class="plus-button"><a href="javascript:void(0)" class="btn btn-danger btn-fab"><i class="material-icons">+</a></div>
+        <div ng-controller="ReportListController" class="plus-button">
+          <button ng-click="editRow('Добавить');" class="btn btn-danger btn-fab"><i class="material-icons">+</button>
+        </div>
       </div>
     </div>
   </div>
@@ -98,8 +102,10 @@
   <script src="{% static '../app/lib/bower_components/jquery/dist/jquery.min.js' %}"></script>
   <script src="{% static '../app/lib/bower_components/bootstrap-material-design/dist/js/material.min.js' %}"></script>
   <script src="{% static '../app/lib/bower_components/bootstrap-material-design/dist/js/ripples.min.js' %}"></script>
+  <script src="{% static '../app/lib/bower_components/ng-dialog/js/ngDialog.min.js' %}"></script>
   <script src="{% static '../app/js/app.js' %}"></script>
   <script src="{% static '../app/js/reports.js' %}"></script>
+  <script src="{% static '../app/js/modals.js' %}"></script>
   <script>$.material.init();</script>
 </body>
 </html>
