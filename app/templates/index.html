@@ -50,10 +50,10 @@
        <table st-safe-src="store.tablerows" st-table="store.displayed" class="table table-striped table-hover">
         <thead>
           <tr>
-            <th>LCAL_ID</th>
-            <th>GROUP_ID</th>
+            <th st-sort="lcal_id">LCAL_ID</th>
+            <th st-sort="group_id">GROUP_ID</th>
             <th>SRLS_ID</th>
-            <th>BRANCH_ID</th>
+            <th st-sort="branch_id">BRANCH_ID</th>
             <th>PRICE</th>
             <th></th>
             <tr>
@@ -76,9 +76,8 @@
               <td>{{row.branch_id}}</td>
               <td>{{row.price}}</td>
               <td class="control-column">
-                <i ng-click="editRow('Изменить', row)" class="material-icons-font" ng-class="{'orange600': editColoring}" ng-mouseenter="editColoring=true" ng-mouseleave="editColoring=false">mode_edit</i>
-                &nbsp;&nbsp;
-                <i ng-click="deleteRow(row.id, $index)" class="material-icons-font" ng-class="{'orange600': delColoring}" ng-mouseenter="delColoring=true" ng-mouseleave="delColoring=false">delete</i>
+                <button class="btn action-button" ng-mouseenter="editColoring=true" ng-mouseleave="editColoring=false"><i ng-click="editRow('Изменить', row)" class="material-icons-font" ng-class="{'orange600': editColoring}">mode_edit</i></button>
+                <button class="btn action-button" ng-mouseenter="delColoring=true" ng-mouseleave="delColoring=false"><i ng-click="deleteRow(row.id, $index)" class="material-icons-font" ng-class="{'orange600': delColoring}">delete</i></button>
               </td>
             </tr>
           </tbody>
