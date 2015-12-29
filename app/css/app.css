@@ -115,6 +115,12 @@ body {
   font-feature-settings: 'liga';
 }
 
+.action-button {
+  padding: 6px !important;
+  margin: 0px !important;
+  font-size: 16px !important;
+}
+
 .bigsize {
   font-size: 20px;
 }
@@ -134,7 +140,7 @@ body {
 
 .control-column {
   width: 100px;
-  padding: 0px;
+  padding: 0px !important;
 }
 
 /*
@@ -143,4 +149,16 @@ body {
 
 .material-icons-font.orange600 { 
   color: #FB8C00; 
+}
+
+/*
+ * Table sorting indicators 
+ */
+
+.st-sort-descent:before {
+    content: '\25BC';
+}
+
+.st-sort-ascent:before {
+    content: '\25B2';
 }
