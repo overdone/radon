@@ -7,35 +7,34 @@ var app = angular.module('radon-reposts', ['ngDialog']);
 app.controller('ReportListController', function(){
   this.reports = [{
     name: 'Отчёт WAP ДЗ', 
-    type: 'fraud'
+    type: 'fraud',
+    url: '#'
 }, 
 {
     name: 'Мониторинг Роуминга',
-    type: 'RA'
+    type: 'RA',
+    url: '#roam_rep'
 }];
 });
 
 app.controller('RoamingReportController', ['$http', '$scope', 'ngDialog', function($http, $scope, ngDialog){
-    var canDelete = true;     // If true show Delete roe button
-    var canEdir = false;       // If true show Edit row button
-    var delColoring = false;
+    var delColoring = false;   // Delete\Edit button hover highlight
     var editColoring = false;
-
+ 
+    var store = this;  
+    store.tablerows = [];  // store of DB table rows
+    store.displayed = [];  // rows in current page
+    
     /*
      * Get API
      */
-     var store = this;  
-    store.tablerows = [];  // store of DB table rows
-    store.displayed = [];  // rows in current page
-
-    $http.get('/api/v1/roaming.json')
-    .success(function(data) {
+    
+    $http.get('/api/v1/roaming.json').success(function(data) {
         store.tablerows = data;     
-    });    
+    });   
+    /* Get */ 
 
     store.displayed = [].concat(store.tablerows);
-    /* Get */
-
 
     /*
      * Delete API
@@ -52,21 +51,27 @@ app.controller('RoamingReportController', ['$http', '$scope', 'ngDialog', functi
 
         });        
     };
-/* Delete */
+    /* Delete */
 
-$scope.editRow = function(header, row) {
-    $scope.val = row || {};
-    $scope.header = header;
+    $scope.editRow = function(header, row) {        
+        $scope.val = $.extend(true, {}, row || {});  // We need a copy of the object if we dont want see the "live page" update
 
-    ngDialog.open({ 
-        template: 'app/templates/roam_rep_modal.html',
-        controller: 'editWindowController',
-        scope: $scope
-    });
-};
+        $scope.header = header;
 
-
-
+        ngDialog.open({ 
+            template: 'app/templates/roam_rep_edit.html',
+            controller: 'editWindowController',
+            scope: $scope
+        }).closePromise.then(function (data) { 
+            // if we save row, get new data from server
+            if(!data.value) { 
+                $http.get('/api/v1/roaming.json').success(function(data) {
+                    store.tablerows = data;     
+                });   
+                store.displayed = [].concat(store.tablerows);
+            }      
+        });
+    };
 }]);
 
 
