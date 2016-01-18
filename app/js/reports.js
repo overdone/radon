@@ -4,18 +4,6 @@
 
 var app = angular.module('radon-reposts', ['ngDialog']);
 
-app.controller('ReportListController', function(){
-  this.reports = [{
-    name: 'Отчёт WAP ДЗ', 
-    type: 'fraud',
-    url: '#'
-}, 
-{
-    name: 'Мониторинг Роуминга',
-    type: 'RA',
-    url: '#roam_rep'
-}];
-});
 
 app.controller('RoamingReportController', ['$http', '$scope', 'ngDialog', function($http, $scope, ngDialog){
     var delColoring = false;   // Delete\Edit button hover highlight
@@ -25,20 +13,15 @@ app.controller('RoamingReportController', ['$http', '$scope', 'ngDialog', functi
     store.tablerows = [];  // store of DB table rows
     store.displayed = [];  // rows in current page
     
-    /*
-     * Get API
-     */
-    
+    /* Get all rows  */    
     $http.get('/api/v1/roaming.json').success(function(data) {
         store.tablerows = data;     
     });   
-    /* Get */ 
+    
 
     store.displayed = [].concat(store.tablerows);
 
-    /*
-     * Delete API
-     */
+    /* Delete selected row */
      $scope.deleteRow = function(rowId, ind) {
         var res = ngDialog.openConfirm({
             template: 'app/templates/confirm_delete.html'
@@ -51,8 +34,8 @@ app.controller('RoamingReportController', ['$http', '$scope', 'ngDialog', functi
 
         });        
     };
-    /* Delete */
 
+    /* Edit selected row */
     $scope.editRow = function(header, row) {        
         $scope.val = $.extend(true, {}, row || {});  // We need a copy of the object if we dont want see the "live page" update
 
@@ -72,6 +55,7 @@ app.controller('RoamingReportController', ['$http', '$scope', 'ngDialog', functi
             }      
         });
     };
+
 }]);
 
 

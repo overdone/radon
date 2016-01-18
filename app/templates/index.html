@@ -32,18 +32,22 @@
     </div>
   </div>
 
-  <div class="container-fluid">
+  <div class="container">
     <div class="row">
-      <div class="col-sm-3 col-md-2 sidebar" ng-controller="ReportListController as list">
+      <div class="col-sm-3 col-md-2 sidebar" ng-controller="MenuController">
         <ul class="nav nav-sidebar">
           {% block content %}
           {% verbatim %}
-          <li ng-repeat="report in list.reports">
-            <a href='{{report.url}}'>{{report.name}}</a>
+          <li ng-repeat="section in sections"><a href="" ng-click="toggleMenu(section)"><i class="material-icons-font list-icon"></i>{{section.name}}<b ng-class="isSelected(section)" class="material-icons-font"></b></a>
+            <ul>              
+              <li ng-repeat="report in raReports">
+                <a href='{{report.url}}'>{{report.name}}</a>
+              </li>           
+            </ul>
           </li>
           {% endverbatim %}
-          {% endblock %}
-        </ul>         
+          {% endblock %} 
+        </ul>
       </div>
       <div ng-view></div>
     </div>
@@ -58,6 +62,7 @@
   <script src="{% static '../app/js/app.js' %}"></script>
   <script src="{% static '../app/js/reports.js' %}"></script>
   <script src="{% static '../app/js/modals.js' %}"></script>
+  <script src="{% static '../app/js/menu.js' %}"></script>
   <script>$.material.init();</script>
 </body>
 </html>

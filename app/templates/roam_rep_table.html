@@ -10,17 +10,13 @@
       <th></th>
       <tr>
         <th colspan="6">
-          <div class="form-group label-floating">                
-            <label class="control-label" for="searchfield"> Найти ...</label>
-            <div class="input-group">
-              <input st-search="" class="form-control" id="searchfield" type="text"/>
-            </div>
+          <div class="form-group">                
+            <input st-search="" class="form-control input-sm" type="text" placeholder="Найти...">
           </div>
         </th> 
       </tr>         
     </thead>
     <tbody>
-      <!-- <tr st-select-row="row" st-select-mode="multiple" ng-repeat="row in store.displayed"> -->
       <tr ng-repeat="row in store.displayed">
         <td>{{row.lcal_id}}</td>
         <td>{{row.group_id}}</td>
