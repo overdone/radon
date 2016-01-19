@@ -38,10 +38,10 @@
         <ul class="nav nav-sidebar">
           {% block content %}
           {% verbatim %}
-          <li ng-repeat="section in sections"><a href="" ng-click="toggleMenu(section)"><i class="material-icons-font list-icon"></i>{{section.name}}<b ng-class="isSelected(section)" class="material-icons-font"></b></a>
-            <ul>              
-              <li ng-repeat="report in raReports">
-                <a href='{{report.url}}'>{{report.name}}</a>
+          <li ng-repeat="section in sections"><a href="" ng-click="toggleMenu(section)"><i class="material-icons-font list-icon"></i>{{section.name}}<b ng-class="{arrowup:section.active, arrowdown:!section.active}" class="material-icons-font"></b></a>
+            <ul ng-show="section.active" ng-animate="{show: 'animate-show', hide: 'animate-hide'}">              
+              <li ng-repeat="item in section.items">
+                <a href='{{item.url}}'>{{item.name}}</a>
               </li>           
             </ul>
           </li>
